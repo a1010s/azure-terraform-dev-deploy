@@ -2,6 +2,10 @@ variable "rg-name" {
   default = "RG_VM-DEV-ENV"
 }
 
+variable "rg-name-k8s" {
+  default = "RG_Kubernetes-DEV-ENV"
+}
+
 variable "location" {
   default = "East US"
 }
@@ -28,4 +32,8 @@ variable "vnet-address-space" {
 
 variable "snet-address-space" {
   default = ["172.16.1.0/24"]
+}
+
+variable "cluster-name" {
+  default = "aks_devops_cluster"
 }
