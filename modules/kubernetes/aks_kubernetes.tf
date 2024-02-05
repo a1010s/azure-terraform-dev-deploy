@@ -22,16 +22,18 @@ resource "azurerm_kubernetes_cluster" "aks_devops_cluster" {
 
 }
 
-resource "azurerm_kubernetes_cluster_node_pool" "devops_node_pool" {
-  name                  = "internal"
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks_devops_cluster.id
-  vm_size               = var.vm_size
-  node_count            = 1
+# To save costs, you can only deploy the default node pool (limited testing)
 
-  tags = {
-    Environment = "test"
-  }
-}
+#resource "azurerm_kubernetes_cluster_node_pool" "devops_node_pool" {
+#  name                  = "internal"
+#  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks_devops_cluster.id
+#  vm_size               = var.vm_size
+#  node_count            = 1
+#
+#  tags = {
+#    Environment = "test"
+#  }
+#}
 
 output "client_certificate" {
   value     = azurerm_kubernetes_cluster.aks_devops_cluster.kube_config.0.client_certificate
