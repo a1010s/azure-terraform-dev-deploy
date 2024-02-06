@@ -37,3 +37,7 @@ variable "snet-address-space" {
 variable "cluster-name" {
   default = "aks_devops_cluster"
 }
+
+variable "container_registry_name" {
+
+}

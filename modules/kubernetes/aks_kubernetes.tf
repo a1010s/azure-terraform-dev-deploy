@@ -1,6 +1,21 @@
+# Import the Container Registry created in the acr file
+
+data "azurerm_container_registry" "as-cr" {
+  name                = var.container_registry_name
+  resource_group_name = var.rg-name
+}
+
+
 resource "azurerm_resource_group" "rg-dev-env" {
   name     = var.rg-name-k8s
   location = var.location
+}
+
+resource "azurerm_role_assignment" "acr-attach" {
+  principal_id                     = azurerm_kubernetes_cluster.aks_devops_cluster.kubelet_identity[0].object_id
+  role_definition_name             = "AcrPull"
+  scope                            = data.azurerm_container_registry.as-cr.id
+  skip_service_principal_aad_check = true
 }
 
 resource "azurerm_kubernetes_cluster" "aks_devops_cluster" {
@@ -8,11 +23,13 @@ resource "azurerm_kubernetes_cluster" "aks_devops_cluster" {
   location            = azurerm_resource_group.rg-dev-env.location
   resource_group_name = azurerm_resource_group.rg-dev-env.name
   dns_prefix          = "devops-aks1"
+  sku_tier            = "Free"
 
   default_node_pool {
     name       = "default"
     node_count = 1
-    vm_size    = "Standard_B2s"
+    vm_size    = "Standard_B2pls_v2" #ARM64 ARCH # 2CPU 4RAM # Option2 X86: "Standard_B2s"
+    os_disk_size_gb = 30
   }
 
   # Login via az cli tool, no service principal needed.
