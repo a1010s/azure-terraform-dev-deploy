@@ -19,7 +19,7 @@ module "aks_cluster" {
   source                  = "./modules/kubernetes"
   container_registry_name = var.container_registry_name
   rg-name                 = var.rg-name
-  location                = "West US" # For Basic Azure Subscription need a different location
+  location                = "West US" #  West US 3 -> cheapest | For Basic Azure Subscription need a different location
   cluster-name            = var.cluster-name
   vm_size                 = "Standard_B2s" # B2ats_v2 is too small
   depends_on              = [module.acr]   # Explicit dependency on ACR module (for attachment)
